@@ -261,7 +261,7 @@ router.get("/bookMeeting", async (req, res) => {
 
     if (response.data.contacts.length > 0) {
       console.log("Email found");
-      contactId = response.data.contacts[0].id;
+      contactId = await response.data.contacts[0].id;
     } else {
       const data = new URLSearchParams();
       data.set("firstName", firstName);
@@ -278,16 +278,16 @@ router.get("/bookMeeting", async (req, res) => {
         },
       });
 
-      contactId = response2.data.id;
+      contactId = await response2.data.id;
       console.log("New contact created");
     }
 
     //create a meeting
     const params = new URLSearchParams();
-    params.set("calendarId", calendar.toString());
-    params.set("contactId", contactId.toString());
+    params.set("calendarId", calendar);
+    params.set("contactId", contactId);
     params.set("locationId", locationId);
-    params.set("startTime", slot.toString());
+    params.set("startTime", slot);
 
     const resp = await axios.post(`https://services.leadconnectorhq.com/calendars/events/appointments`, params, {
       headers: {
