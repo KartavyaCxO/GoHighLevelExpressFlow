@@ -8,19 +8,24 @@ import app from '../app.js';
 /* var debug = require('debug')('ghl-widget-backbone:server'); */
 import debug from 'debug';
 import http from 'http';
+import https from 'https';
+import fs from 'fs';
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || '443');
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
-
-var server = http.createServer(app);
+const options = {
+  cert: fs.readFileSync('/etc/letsencrypt/live/amidawealth.yourcxo.online/fullchain.pem'),
+  key: fs.readFileSync('/etc/letsencrypt/live/amidawealth.yourcxo.online/privkey.pem')
+};
+var server = https.createServer(options, app);
 
 /**
  * Listen on provided port, on all network interfaces.
