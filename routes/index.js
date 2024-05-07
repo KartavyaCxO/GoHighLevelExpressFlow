@@ -146,6 +146,7 @@ router.get("/rehydrate", async function (req, res) {
       data: data,
     };
 
+
     try {
       let oneMonthExpiry = 60 * 60 * 24 * 30;
       const { data } = await axios.request(options);
@@ -277,8 +278,8 @@ router.get("/bookMeeting", async (req, res) => {
           Accept: "application/json",
         },
       });
-
-      contactId = await response2.data.id;
+   
+      contactId = await response2.data.contact.id;
       console.log("New contact created");
     }
 
